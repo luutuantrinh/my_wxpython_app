@@ -1,10 +1,16 @@
 import wx
 import os
-from views.about_view import AboutView  # Import AboutView
+import json
+from views.about_view import AboutView
 
 class MainAppView(wx.Frame):
-    def __init__(self, parent, title):
+    def __init__(self, parent, title, lang='en'):
         super(MainAppView, self).__init__(parent, title=title, size=(800, 600))
+
+        self.lang = lang  # Set language
+
+        # Load language content
+        self.load_language_content()
 
         # Create status bar
         self.status_bar = self.CreateStatusBar()
@@ -17,35 +23,36 @@ class MainAppView(wx.Frame):
         nav_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Add workspace name
-        workspace_label = wx.StaticText(nav_panel, label="Tool Load Test API FPT", style=wx.ALIGN_CENTER)
+        workspace_label = wx.StaticText(nav_panel, label=self.content['workspace_name'], style=wx.ALIGN_CENTER)
         workspace_label.SetForegroundColour(wx.Colour(0, 0, 0))
         workspace_label.SetFont(wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
 
-        # thêm logo chỗ này nữa , logo chỗ này : D:\SAP\Python\my_wxpython_app\media\pngwing.com.png
+        # Add logo
         logo_path = r"media\pngwing.com.png"
-        image = wx.Image(logo_path, wx.BITMAP_TYPE_PNG)
-        
-        # Calculate new dimensions while keeping aspect ratio
-        max_size = 100  # replace with desired max width or height
-        width = image.GetWidth()
-        height = image.GetHeight()
-        if width > height:
-            new_width = max_size
-            new_height = max_size * height / width
-        else:
-            new_height = max_size
-            new_width = max_size * width / height
-        
-        # Scale the image
-        image = image.Scale(int(new_width), int(new_height), wx.IMAGE_QUALITY_HIGH)
-        
-        # Convert the wx.Image back to a wx.Bitmap
-        logo = wx.Bitmap(image)
-        
-        logo_image = wx.StaticBitmap(nav_panel, bitmap=logo)
-        nav_sizer.Add(logo_image, 0, wx.ALL | wx.CENTER, 10)
-        
-        workspace_sub_label = wx.StaticText(nav_panel, label="Workspace", style=wx.ALIGN_CENTER)
+        if os.path.exists(logo_path):
+            image = wx.Image(logo_path, wx.BITMAP_TYPE_PNG)
+            
+            # Calculate new dimensions while keeping aspect ratio
+            max_size = 100  # replace with desired max width or height
+            width = image.GetWidth()
+            height = image.GetHeight()
+            if width > height:
+                new_width = max_size
+                new_height = max_size * height / width
+            else:
+                new_height = max_size
+                new_width = max_size * width / height
+            
+            # Scale the image
+            image = image.Scale(int(new_width), int(new_height), wx.IMAGE_QUALITY_HIGH)
+            
+            # Convert the wx.Image back to a wx.Bitmap
+            logo = wx.Bitmap(image)
+            
+            logo_image = wx.StaticBitmap(nav_panel, bitmap=logo)
+            nav_sizer.Add(logo_image, 0, wx.ALL | wx.CENTER, 10)
+
+        workspace_sub_label = wx.StaticText(nav_panel, label=self.content['workspace_subname'], style=wx.ALIGN_CENTER)
         workspace_sub_label.SetForegroundColour(wx.Colour(100, 100, 100))
 
         nav_sizer.Add(workspace_label, 0, wx.ALL | wx.CENTER, 10)
@@ -57,7 +64,7 @@ class MainAppView(wx.Frame):
         search_sizer = wx.BoxSizer(wx.HORIZONTAL)
         search_icon = wx.StaticText(search_panel, label="🔍")
         search_text = wx.TextCtrl(search_panel, style=wx.NO_BORDER)
-        search_text.SetHint("Search")
+        search_text.SetHint(self.content['search_hint'])
         search_text.SetBackgroundColour(wx.Colour(255, 255, 255))
         search_text.SetForegroundColour(wx.Colour(0, 0, 0))
         search_sizer.Add(search_icon, 0, wx.ALL, 5)
@@ -67,15 +74,23 @@ class MainAppView(wx.Frame):
         nav_sizer.Add(search_panel, 0, wx.ALL | wx.EXPAND, 10)
 
         # Add menu items as buttons
-        menu_items = ["Dashboard", "Orders", "Products", "Customers", "About"]
+        menu_items = [
+            (self.content['menu_dashboard'], "Dashboard"),
+            (self.content['menu_orders'], "Orders"),
+            (self.content['menu_products'], "Products"),
+            (self.content['menu_customers'], "Customers"),
+            (self.content['menu_about'], "About")
+        ]
+        
         self.content_panel = wx.Panel(self)
         self.content_panel.SetBackgroundColour(wx.Colour(255, 255, 255))
         self.content_sizer = wx.BoxSizer(wx.VERTICAL)
         self.content_panel.SetSizer(self.content_sizer)
 
-        for item in menu_items:
-            btn = wx.Button(nav_panel, label=item)
+        for label, item in menu_items:
+            btn = wx.Button(nav_panel, label=label)
             btn.Bind(wx.EVT_BUTTON, self.on_menu_item_click)
+            btn.item = item
             nav_sizer.Add(btn, 0, wx.ALL | wx.EXPAND, 5)
 
         nav_panel.SetSizer(nav_sizer)
@@ -89,26 +104,27 @@ class MainAppView(wx.Frame):
         self.Centre()
         self.Show()
 
+    def load_language_content(self):
+        lang_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'languages.json')
+        with open(lang_file_path, 'r', encoding='utf-8') as f:
+            languages = json.load(f)
+        self.content = languages.get(self.lang, languages['en'])
+
     def on_menu_item_click(self, event):
         button = event.GetEventObject()
-        label = button.GetLabel()
-        self.status_bar.SetStatusText(f"{label} is running")
+        item = button.item
+        self.status_bar.SetStatusText(f"{item} is running")
         
         # Clear previous content
         for child in self.content_panel.GetChildren():
             child.Destroy()
 
-        if label == "About":
-            dlg = AboutView(self)
+        if item == "About":
+            dlg = AboutView(self, lang=self.lang)
             dlg.ShowModal()
         else:
             # Display the selected menu item content
-            content_label = wx.StaticText(self.content_panel, label=f"{label} content is displayed here")
-            content_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
+            content_label = wx.StaticText(self.content_panel, label=f"{item} content is displayed here")
+            content_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE.NORMAL, wx.FONTWEIGHT_NORMAL))
             self.content_sizer.Add(content_label, 0, wx.ALL | wx.CENTER, 10)
             self.content_panel.Layout()
-
-if __name__ == '__main__':
-    app = wx.App(False)
-    frame = MainAppView(None, "Main Application")
-    app.MainLoop()

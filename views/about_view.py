@@ -1,25 +1,34 @@
 import wx
 import wx.html
+import json
+import os
 
 class AboutView(wx.Dialog):
-    def __init__(self, parent):
+    def __init__(self, parent, lang='en'):
         super(AboutView, self).__init__(parent, title="About", size=(500, 400))
 
-        html_content = """
+        # Load language content
+        lang_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'languages.json')
+        with open(lang_file_path, 'r', encoding='utf-8') as f:
+            languages = json.load(f)
+        
+        content = languages.get(lang, languages['en'])
+
+        html_content = f"""
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="{lang}">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>About</title>
+            <title>{content['about_title']}</title>
             <style>
-                body {
+                body {{
                     font-family: Arial, sans-serif;
                     margin: 0;
                     padding: 0;
                     background-color: #f8f9fa;
-                }
-                .container {
+                }}
+                .container {{
                     max-width: 800px;
                     margin: 50px auto;
                     padding: 20px;
@@ -27,23 +36,23 @@ class AboutView(wx.Dialog):
                     border: 1px solid #ddd;
                     border-radius: 4px;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-                h1 {
+                }}
+                h1 {{
                     font-size: 24px;
                     color: #333333;
-                }
-                p {
+                }}
+                p {{
                     font-size: 14px;
                     color: #666666;
-                }
-                a {
+                }}
+                a {{
                     color: #007bff;
                     text-decoration: none;
-                }
-                a:hover {
+                }}
+                a:hover {{
                     text-decoration: underline;
-                }
-                .btn {
+                }}
+                .btn {{
                     display: inline-block;
                     padding: 10px 20px;
                     margin-top: 20px;
@@ -56,21 +65,21 @@ class AboutView(wx.Dialog):
                     text-align: center;
                     cursor: pointer;
                     text-decoration: none;
-                }
-                .btn:hover {
+                }}
+                .btn:hover {{
                     background-color: #0056b3;
-                }
+                }}
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>About</h1>
-                <p>This is a tool for load testing API for FPT.</p>
-                <p>Developed by: <strong>Luu Tuan Trinh</strong></p>
-                <p>Position: Developer</p>
-                <p>LinkedIn: <a href="https://www.linkedin.com/in/luutuantrinhdeveloper/">https://www.linkedin.com/in/luutuantrinhdeveloper/</a></p>
-                <p>Experienced in developing and maintaining software applications. Proficient in Python, JavaScript, and various frameworks. Passionate about learning new technologies and improving coding skills.</p>
-                <a href="#" class="btn" onclick="window.close();">Close</a>
+                <h1>{content['about_title']}</h1>
+                <p>{content['about_description']}</p>
+                <p>{content['developer']}</p>
+                <p>{content['position']}</p>
+                <p>{content['linkedin']}</p>
+                <p>{content['experience']}</p>
+                <a href="#" class="btn" onclick="window.close();">{content['close_button']}</a>
             </div>
         </body>
         </html>
