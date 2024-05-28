@@ -1,0 +1,18 @@
+{
+    "user1": {
+        "password": "gAAAAABmVYWT0Ftq_HfAbhyt8jMK3Z36E7G_WkochNfFjeJmWZNXXBMqienklQnUGHv9mk8dHXP4L9wzrXi1zP1E3YaQe6UqxA==",
+        "secret_key": "BL1OawcqitqqHAG0_W_dSiL_9tkwiBrV-KRhWmgxssg="
+    },
+    "user2": {
+        "password": "gAAAAABmVYWT6odE9-M5o2KM2-tZ36RGSSbEhQZMwXA9Uwi4msrP7Eggeg4PnOYV31bWXtK39UGj0dETTWEeMhoFBJA68IIVvw==",
+        "secret_key": "BL1OawcqitqqHAG0_W_dSiL_9tkwiBrV-KRhWmgxssg="
+    },
+    "user3": {
+        "password": "gAAAAABmVYWTW1w40kFXtGEYWAaZ2NxIDiLFCsTWa2C29OweuZWnCn2Q2fq7eJlTz9IFEQBZLg4_SQf7nBc8I5mhl4KeEbWRMw==",
+        "secret_key": "BL1OawcqitqqHAG0_W_dSiL_9tkwiBrV-KRhWmgxssg="
+    },
+    "trinh1": {
+        "password": "gAAAAABmVYnni74qZjqpTwvpYRNyGRGQXSuJdyat6CWR2PAA8JWLZQGcYMRxmZdZyAcMsOsr16zu70HvYOfY3h7Oki2jWonOaw==",
+        "secret_key": "4TGT7hidUHulMa3LJUSn5rRrxUbSRbl4CVLqVisK9QA="
+    }
+}

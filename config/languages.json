@@ -1,0 +1,28 @@
+{
+    "en": {
+        "welcome": "Welcome to My App",
+        "login": "Login",
+        "register": "Register",
+        "login_with_secret_key": "Login with Secret Key",
+        "username": "Username",
+        "password": "Password",
+        "secret_key": "Secret Key",
+        "registration_successful": "Registration successful!",
+        "registration_failed": "Registration failed. Username already exists.",
+        "login_successful": "Login successful!",
+        "login_failed": "Login failed. Please check your credentials."
+    },
+    "vi": {
+        "welcome": "Chào mừng đến với Ứng dụng của tôi",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "login_with_secret_key": "Đăng nhập bằng Secret Key",
+        "username": "Tên đăng nhập",
+        "password": "Mật khẩu",
+        "secret_key": "Secret Key",
+        "registration_successful": "Đăng ký thành công!",
+        "registration_failed": "Đăng ký thất bại. Tên đăng nhập đã tồn tại.",
+        "login_successful": "Đăng nhập thành công!",
+        "login_failed": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin."
+    }
+}
