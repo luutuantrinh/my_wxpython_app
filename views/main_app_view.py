@@ -1,78 +1,114 @@
 import wx
 import os
+from views.about_view import AboutView  # Import AboutView
 
 class MainAppView(wx.Frame):
     def __init__(self, parent, title):
         super(MainAppView, self).__init__(parent, title=title, size=(800, 600))
-        self.init_ui()
-        self.Center()
 
-    def init_ui(self):
-        panel = wx.Panel(self)
+        # Create status bar
+        self.status_bar = self.CreateStatusBar()
+        self.status_bar.SetStatusText("Ready")
 
-        main_sizer = wx.BoxSizer(wx.VERTICAL)
+        # Create a panel for the navigation bar
+        nav_panel = wx.Panel(self)
+        nav_panel.SetBackgroundColour(wx.Colour(240, 240, 240))
 
-        # Main Feature Label
-        main_label = wx.StaticText(panel, label="Main Feature", style=wx.ALIGN_CENTER)
-        main_label.SetFont(wx.Font(24, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
-        main_sizer.Add(main_label, flag=wx.ALIGN_CENTER | wx.TOP, border=20)
+        nav_sizer = wx.BoxSizer(wx.VERTICAL)
 
-        # Subtitle
-        subtitle = wx.StaticText(panel, label="All Feature Available Here, Please Click Choose Your Action", style=wx.ALIGN_CENTER)
-        subtitle.SetFont(wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
-        main_sizer.Add(subtitle, flag=wx.ALIGN_CENTER | wx.TOP, border=10)
+        # Add workspace name
+        workspace_label = wx.StaticText(nav_panel, label="Tool Load Test API FPT", style=wx.ALIGN_CENTER)
+        workspace_label.SetForegroundColour(wx.Colour(0, 0, 0))
+        workspace_label.SetFont(wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
 
-        # Grid for features
-        grid_sizer = wx.GridSizer(2, 3, 15, 15)
+        # thêm logo chỗ này nữa , logo chỗ này : D:\SAP\Python\my_wxpython_app\media\pngwing.com.png
+        logo_path = r"media\pngwing.com.png"
+        image = wx.Image(logo_path, wx.BITMAP_TYPE_PNG)
+        
+        # Calculate new dimensions while keeping aspect ratio
+        max_size = 100  # replace with desired max width or height
+        width = image.GetWidth()
+        height = image.GetHeight()
+        if width > height:
+            new_width = max_size
+            new_height = max_size * height / width
+        else:
+            new_height = max_size
+            new_width = max_size * width / height
+        
+        # Scale the image
+        image = image.Scale(int(new_width), int(new_height), wx.IMAGE_QUALITY_HIGH)
+        
+        # Convert the wx.Image back to a wx.Bitmap
+        logo = wx.Bitmap(image)
+        
+        logo_image = wx.StaticBitmap(nav_panel, bitmap=logo)
+        nav_sizer.Add(logo_image, 0, wx.ALL | wx.CENTER, 10)
+        
+        workspace_sub_label = wx.StaticText(nav_panel, label="Workspace", style=wx.ALIGN_CENTER)
+        workspace_sub_label.SetForegroundColour(wx.Colour(100, 100, 100))
 
-        features = [
-            ("Chức năng 1", "Nội dung chức năng 1"),
-            ("Chức năng 2", "Nội dung chức năng 2"),
-            ("Chức năng 3", "Nội dung chức năng 3"),
-            ("Chức năng 4", "Nội dung chức năng 4"),
-            ("Chức năng 5", "Nội dung chức năng 5"),
-            ("Chức năng 6", "Nội dung chức năng 6")   
-        ]
+        nav_sizer.Add(workspace_label, 0, wx.ALL | wx.CENTER, 10)
+        nav_sizer.Add(workspace_sub_label, 0, wx.ALL | wx.CENTER, 5)
 
-        # Đường dẫn tương đối đến tệp hình ảnh
-        icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'media', 'pngwing.com.png'))
-        absolute_icon_path = os.path.abspath(icon_path)
+        # Add search bar
+        search_panel = wx.Panel(nav_panel)
+        search_panel.SetBackgroundColour(wx.Colour(255, 255, 255))
+        search_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        search_icon = wx.StaticText(search_panel, label="🔍")
+        search_text = wx.TextCtrl(search_panel, style=wx.NO_BORDER)
+        search_text.SetHint("Search")
+        search_text.SetBackgroundColour(wx.Colour(255, 255, 255))
+        search_text.SetForegroundColour(wx.Colour(0, 0, 0))
+        search_sizer.Add(search_icon, 0, wx.ALL, 5)
+        search_sizer.Add(search_text, 1, wx.ALL, 5)
+        search_panel.SetSizer(search_sizer)
 
-        # In ra đường dẫn tuyệt đối để kiểm tra
-        print(f"Đường dẫn tuyệt đối đến tệp hình ảnh: {absolute_icon_path}")
+        nav_sizer.Add(search_panel, 0, wx.ALL | wx.EXPAND, 10)
 
-        for title, description in features:
-            feature_panel = wx.Panel(panel)
-            feature_sizer = wx.BoxSizer(wx.VERTICAL)
+        # Add menu items as buttons
+        menu_items = ["Dashboard", "Orders", "Products", "Customers", "About"]
+        self.content_panel = wx.Panel(self)
+        self.content_panel.SetBackgroundColour(wx.Colour(255, 255, 255))
+        self.content_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.content_panel.SetSizer(self.content_sizer)
 
-            try:
-                # Load và thay đổi kích thước hình ảnh
-                img = wx.Image(icon_path, wx.BITMAP_TYPE_ANY)
-                img = img.Scale(50, 50, wx.IMAGE_QUALITY_HIGH)  # Thay đổi kích thước hình ảnh
-                feature_icon = wx.StaticBitmap(feature_panel, bitmap=wx.Bitmap(img))
-            except Exception as e:
-                wx.LogError(f"Failed to load image from file \"{absolute_icon_path}\": {e}")
-                continue
+        for item in menu_items:
+            btn = wx.Button(nav_panel, label=item)
+            btn.Bind(wx.EVT_BUTTON, self.on_menu_item_click)
+            nav_sizer.Add(btn, 0, wx.ALL | wx.EXPAND, 5)
 
-            feature_sizer.Add(feature_icon, flag=wx.ALIGN_CENTER)
+        nav_panel.SetSizer(nav_sizer)
 
-            feature_title = wx.StaticText(feature_panel, label=title, style=wx.ALIGN_CENTER)
-            feature_title.SetFont(wx.Font(16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
-            feature_sizer.Add(feature_title, flag=wx.ALIGN_CENTER | wx.TOP, border=10)
+        # Main sizer
+        main_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        main_sizer.Add(nav_panel, 0, wx.EXPAND | wx.ALL, 0)
+        main_sizer.Add(self.content_panel, 1, wx.EXPAND | wx.ALL, 0)
+        self.SetSizer(main_sizer)
 
-            feature_desc = wx.StaticText(feature_panel, label=description, style=wx.ALIGN_CENTER)
-            feature_desc.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
-            feature_sizer.Add(feature_desc, flag=wx.ALIGN_CENTER | wx.TOP, border=5)
+        self.Centre()
+        self.Show()
 
-            feature_panel.SetSizer(feature_sizer)
-            grid_sizer.Add(feature_panel, flag=wx.EXPAND)
+    def on_menu_item_click(self, event):
+        button = event.GetEventObject()
+        label = button.GetLabel()
+        self.status_bar.SetStatusText(f"{label} is running")
+        
+        # Clear previous content
+        for child in self.content_panel.GetChildren():
+            child.Destroy()
 
-        main_sizer.Add(grid_sizer, flag=wx.ALIGN_CENTER | wx.ALL, border=20)
-
-        panel.SetSizer(main_sizer)
+        if label == "About":
+            dlg = AboutView(self)
+            dlg.ShowModal()
+        else:
+            # Display the selected menu item content
+            content_label = wx.StaticText(self.content_panel, label=f"{label} content is displayed here")
+            content_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
+            self.content_sizer.Add(content_label, 0, wx.ALL | wx.CENTER, 10)
+            self.content_panel.Layout()
 
 if __name__ == '__main__':
     app = wx.App(False)
-    frame = MainAppView(None, title="Main Feature UI")
-    frame.Show()
+    frame = MainAppView(None, "Main Application")
     app.MainLoop()
