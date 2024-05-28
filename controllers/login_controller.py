@@ -65,5 +65,5 @@ class LoginController:
     def show_main_app_view(self):
         if self.splash_screen:
             self.splash_screen.Destroy()
-        self.main_app_view = MainAppView(None, title="Main Application")
+        self.main_app_view = MainAppView(None, title="Main Application", lang=language_manager.lang)
         self.main_app_view.Show()

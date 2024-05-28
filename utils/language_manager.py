@@ -2,20 +2,20 @@ import json
 import os
 
 class LanguageManager:
-    def __init__(self, language='en'):
-        self.language = language
-        self.language_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'languages.json')
-        self.load_language()
+    def __init__(self, default_lang='en'):
+        self.lang = default_lang
+        self.load_language_content()
 
-    def load_language(self):
-        with open(self.language_file, 'r', encoding='utf-8') as file:
-            self.languages = json.load(file)
+    def load_language_content(self):
+        lang_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'languages.json')
+        with open(lang_file_path, 'r', encoding='utf-8') as f:
+            self.languages = json.load(f)
 
-    def set_language(self, language):
-        self.language = language
+    def set_language(self, lang):
+        if lang in self.languages:
+            self.lang = lang
 
     def get(self, key):
-        return self.languages.get(self.language, {}).get(key, key)
+        return self.languages.get(self.lang, {}).get(key, key)
 
-# Khởi tạo một đối tượng LanguageManager toàn cục với ngôn ngữ mặc định là tiếng Anh
-language_manager = LanguageManager('en')
+language_manager = LanguageManager()
