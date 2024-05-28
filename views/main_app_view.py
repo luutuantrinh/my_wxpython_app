@@ -2,6 +2,10 @@ import wx
 import os
 import json
 from views.about_view import AboutView
+from views.dashboard_view import DashboardView
+from views.orders_view import OrdersView
+from views.products_view import ProductsView
+from views.customers_view import CustomersView
 
 class MainAppView(wx.Frame):
     def __init__(self, parent, title, lang='en'):
@@ -119,12 +123,18 @@ class MainAppView(wx.Frame):
         for child in self.content_panel.GetChildren():
             child.Destroy()
 
-        if item == "About":
+        if item == "Dashboard":
+            view = DashboardView(self.content_panel)
+        elif item == "Orders":
+            view = OrdersView(self.content_panel)
+        elif item == "Products":
+            view = ProductsView(self.content_panel)
+        elif item == "Customers":
+            view = CustomersView(self.content_panel)
+        elif item == "About":
             dlg = AboutView(self, lang=self.lang)
             dlg.ShowModal()
-        else:
-            # Display the selected menu item content
-            content_label = wx.StaticText(self.content_panel, label=f"{item} content is displayed here")
-            content_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE.NORMAL, wx.FONTWEIGHT_NORMAL))
-            self.content_sizer.Add(content_label, 0, wx.ALL | wx.CENTER, 10)
-            self.content_panel.Layout()
+            return
+        
+        self.content_sizer.Add(view, 1, wx.EXPAND)
+        self.content_panel.Layout()
