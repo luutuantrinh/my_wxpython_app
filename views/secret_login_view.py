@@ -13,7 +13,7 @@ class SecretLoginView(wx.Frame):
         main_sizer = wx.BoxSizer(wx.VERTICAL)
         
         title_text = wx.StaticText(self.panel, label=language_manager.get('login_with_secret_key'), style=wx.ALIGN_CENTER)
-        title_font = wx.Font(16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE.NORMAL, wx.FONTWEIGHT_BOLD)
+        title_font = wx.Font(16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD)
         title_text.SetFont(title_font)
         title_text.SetForegroundColour(wx.Colour(0, 102, 204))
         

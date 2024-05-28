@@ -5,6 +5,7 @@ from views.secret_login_view import SecretLoginView
 from views.splash_screen import SplashScreen
 from views.main_app_view import MainAppView
 from utils.language_manager import language_manager
+import wx
 
 class LoginController:
     def __init__(self):
@@ -32,17 +33,28 @@ class LoginController:
 
     def handle_login(self, username, password):
         if self.auth_service.validate_user(username, password):
-            self.show_splash_screen()
+            self.show_success_message()
         else:
             self.login_view.show_message(language_manager.get('login_failed'))
 
     def handle_secret_login(self, username, secret_key):
         if self.auth_service.validate_secret_key(username, secret_key):
-            self.show_splash_screen()
+            self.show_success_message()
         else:
             self.secret_login_view.show_message(language_manager.get('login_failed'))
 
+    def show_success_message(self):
+        wx.MessageBox(language_manager.get('login_successful'), "Info", wx.OK | wx.ICON_INFORMATION)
+        self.show_splash_screen()
+
     def show_splash_screen(self):
+        if self.main_view:
+            self.main_view.Destroy()
+        if self.login_view:
+            self.login_view.Destroy()
+        if self.secret_login_view:
+            self.secret_login_view.Destroy()
+
         self.splash_screen = SplashScreen(
             image_path="media/pngwing.com.png",
             duration=3000,
@@ -51,12 +63,6 @@ class LoginController:
         self.splash_screen.Show()
 
     def show_main_app_view(self):
-        if self.main_view:
-            self.main_view.Destroy()
-        if self.login_view:
-            self.login_view.Destroy()
-        if self.secret_login_view:
-            self.secret_login_view.Destroy()
         if self.splash_screen:
             self.splash_screen.Destroy()
         self.main_app_view = MainAppView(None, title="Main Application")
