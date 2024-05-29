@@ -1,7 +1,7 @@
 import wx
 from utils.language_manager import language_manager
 
-class SecretLoginView(wx.Frame):
+class SecretLoginView(wx.Dialog):
     def __init__(self, parent, title, controller):
         super(SecretLoginView, self).__init__(parent, title=title, size=(350, 250))
         self.controller = controller
@@ -47,3 +47,4 @@ class SecretLoginView(wx.Frame):
 
     def show_message(self, message):
         wx.MessageBox(message, "Info", wx.OK | wx.ICON_INFORMATION)
+

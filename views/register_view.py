@@ -2,7 +2,7 @@ import wx
 from utils.language_manager import language_manager
 from utils.logger import app_logger
 
-class RegisterView(wx.Frame):
+class RegisterView(wx.Dialog):
     def __init__(self, parent, title, controller):
         super(RegisterView, self).__init__(parent, title=title, size=(350, 250))
         self.controller = controller

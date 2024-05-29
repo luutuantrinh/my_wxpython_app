@@ -1,6 +1,9 @@
 import wx
 import os
 from utils.language_manager import language_manager
+from .login_view import LoginView 
+from .secret_login_view import SecretLoginView
+from .register_view import RegisterView
 
 class MainView(wx.Frame):
     def __init__(self, parent, title, controller):
@@ -52,13 +55,22 @@ class MainView(wx.Frame):
         self.panel.SetSizer(self.main_sizer)
 
     def on_login(self, event):
-        self.controller.show_login_view()
+        login_view = LoginView(self, "Login", self.controller)
+        if login_view.ShowModal() == wx.ID_OK:
+            self.controller.show_login_view()
+        login_view.Destroy()
 
     def on_register(self, event):
-        self.controller.show_register_view()
+        register_view = RegisterView(self, "Register", self.controller)
+        if register_view.ShowModal() == wx.ID_OK:
+            self.controller.show_register_view()
+        register_view.Destroy()
 
     def on_secret_login(self, event):
-        self.controller.show_secret_login_view()
+        secret_login_view = SecretLoginView(self, "Secret Login", self.controller)
+        if secret_login_view.ShowModal() == wx.ID_OK:
+            self.controller.show_secret_login_view()
+        secret_login_view.Destroy()
 
     def on_language_change(self, event):
         choice = self.language_choice.GetString(self.language_choice.GetSelection())
