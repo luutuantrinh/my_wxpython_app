@@ -1,3 +1,4 @@
+import json
 from utils.encryption import encrypt_data, decrypt_data, generate_key
 from utils.file_manager import load_users, save_users
 from config.settings import SECRET_KEY
@@ -35,3 +36,8 @@ class AuthService:
         if username in self.users:
             return self.users[username]['secret_key']
         return None
+    
+    def user_exists(self, username):
+        with open('users.json', 'r') as f:
+            users = json.load(f)
+        return username in users

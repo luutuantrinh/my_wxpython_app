@@ -1,0 +1,11 @@
+2024-05-29 08:48:12,677 INFO Login attempt by user: trinh1
+2024-05-29 08:48:12,677 INFO User trinh1 logged in successfully
+2024-05-29 08:48:12,677 WARNING Login failed for user: trinh1
+2024-05-29 09:07:20,799 INFO Failed login attempt by user: 
+2024-05-29 09:07:20,799 INFO Login attempt by user: 
+2024-05-29 09:07:26,768 INFO Login attempt by user: trinh1
+2024-05-29 09:09:44,121 INFO Login attempt by user: trinh1
+2024-05-29 09:10:28,420 INFO Failed login attempt by user: dssds
+2024-05-29 09:10:28,420 INFO Login attempt by user: dssds
+2024-05-29 09:12:36,772 WARNING Failed login attempt by user: dsdsds
+2024-05-29 09:12:36,772 INFO Login attempt by user: dsdsds

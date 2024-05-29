@@ -1,5 +1,6 @@
 import wx
 from utils.language_manager import language_manager
+from utils.logger import app_logger
 
 class RegisterView(wx.Frame):
     def __init__(self, parent, title, controller):
@@ -42,6 +43,17 @@ class RegisterView(wx.Frame):
     def on_register(self, event):
         username = self.username_text.GetValue()
         password = self.password_text.GetValue()
+
+        # Ghi log cho sự kiện đăng ký
+        app_logger.info(f"Registration attempt by user: {username}")
+        
+        # Thêm logic đăng ký của bạn tại đây
+        
+        # Nếu đăng ký thành công
+        app_logger.info(f"User {username} registered successfully")
+        
+        # Nếu đăng ký thất bại
+        # app_logger.warning(f"Registration failed for user: {username}, email: {email}")
         # Gọi hàm xử lý đăng ký từ controller
         self.controller.handle_register(username, password)
 

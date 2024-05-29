@@ -1,5 +1,6 @@
 import wx
 from utils.language_manager import language_manager
+from utils.logger import app_logger
 
 class LoginView(wx.Frame):
     def __init__(self, parent, title, controller):
@@ -44,6 +45,10 @@ class LoginView(wx.Frame):
         password = self.password_text.GetValue()
         # Gọi hàm xử lý đăng nhập từ controller
         self.controller.handle_login(username, password)
+
+        # Ghi log cho sự kiện đăng nhập
+        app_logger.info(f"Login attempt by user: {username}")
+    
 
     def show_message(self, message):
         wx.MessageBox(message, "Info", wx.OK | wx.ICON_INFORMATION)

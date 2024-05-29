@@ -5,6 +5,7 @@ from views.secret_login_view import SecretLoginView
 from views.splash_screen import SplashScreen
 from views.main_app_view import MainAppView
 from utils.language_manager import language_manager
+from utils.logger import app_logger
 import wx
 
 class LoginController:
@@ -36,12 +37,14 @@ class LoginController:
             self.show_success_message()
         else:
             self.login_view.show_message(language_manager.get('login_failed'))
+            app_logger.warning(f"Failed login attempt by user: {username}")
 
     def handle_secret_login(self, username, secret_key):
         if self.auth_service.validate_secret_key(username, secret_key):
             self.show_success_message()
         else:
             self.secret_login_view.show_message(language_manager.get('login_failed'))
+            app_logger.warning(f"Failed secret login attempt by user: {username}")
 
     def show_success_message(self):
         wx.MessageBox(language_manager.get('login_successful'), "Info", wx.OK | wx.ICON_INFORMATION)

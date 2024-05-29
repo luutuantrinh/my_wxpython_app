@@ -1,38 +1,93 @@
-Giải thích các tệp và thư mục:
-main.py: Tệp chính để khởi chạy ứng dụng. Tệp này sẽ tạo ra đối tượng App của wxPython và bắt đầu vòng lặp sự kiện.
-
-config/: Thư mục chứa các tệp cấu hình.
-
-__init__.py: Để biến thư mục thành một gói Python.
-settings.py: Chứa các cấu hình và thông tin bảo mật (ví dụ: thông tin cơ sở dữ liệu, khóa mã hóa).
-models/: Thư mục chứa các tệp mô hình (Model). Đây là nơi quản lý dữ liệu và logic kinh doanh của ứng dụng.
-
-__init__.py: Để biến thư mục thành một gói Python.
-user_model.py: Quản lý dữ liệu và logic liên quan đến người dùng.
-data_model.py: Quản lý dữ liệu khác của ứng dụng.
-views/: Thư mục chứa các tệp hiển thị (View). Đây là nơi định nghĩa giao diện người dùng và cách hiển thị dữ liệu.
-
-__init__.py: Để biến thư mục thành một gói Python.
-main_view.py: Chứa các lớp và hàm liên quan đến giao diện chính của ứng dụng.
-login_view.py: Chứa các lớp và hàm liên quan đến giao diện đăng nhập.
-controllers/: Thư mục chứa các tệp điều khiển (Controller). Đây là nơi xử lý các tương tác từ người dùng và điều phối giữa Model và View.
-
-__init__.py: Để biến thư mục thành một gói Python.
-main_controller.py: Chứa các lớp và hàm điều khiển logic của giao diện chính.
-login_controller.py: Chứa các lớp và hàm điều khiển logic của giao diện đăng nhập.
-services/: Thư mục chứa các dịch vụ. Đây là nơi đặt các lớp và hàm dùng để xử lý logic nghiệp vụ không thuộc về Model, View hay Controller cụ thể.
-
-__init__.py: Để biến thư mục thành một gói Python.
-auth_service.py: Chứa các dịch vụ xác thực và quản lý người dùng.
-data_service.py: Chứa các dịch vụ liên quan đến xử lý dữ liệu.
-utils/: Thư mục chứa các tiện ích phụ trợ. Đây là nơi đặt các hàm và lớp dùng chung mà không thuộc về Model, View hay Controller cụ thể.
-
-__init__.py: Để biến thư mục thành một gói Python.
-logger.py: Quản lý ghi log của ứng dụng.
-encryption.py: Chứa các hàm mã hóa và giải mã dữ liệu.
-tests/: Thư mục chứa các tệp kiểm thử. Đây là nơi đặt các bài kiểm thử cho từng thành phần của ứng dụng.
-
-__init__.py: Để biến thư mục thành một gói Python.
-test_models.py: Kiểm thử các mô hình.
-test_views.py: Kiểm thử các hiển thị.
-test_controllers.py: Kiểm thử các điều khiển.
+#### tree /F 
+Folder PATH listing
+Volume serial number is 94E4-1EF0
+D:.
+│   app.log
+│   main.py
+│   read.me
+│   users.json
+│
+├───config
+│   │   languages.json
+│   │   settings.py
+│   │   __init__.py
+│   │
+│   └───__pycache__
+│           settings.cpython-311.pyc
+│           __init__.cpython-311.pyc
+│
+├───controllers
+│   │   login_controller.py
+│   │   main_controller.py
+│   │   register_controller.py
+│   │   __init__.py
+│   │
+│   └───__pycache__
+│           login_controller.cpython-311.pyc
+│           register_controller.cpython-311.pyc
+│           __init__.cpython-311.pyc
+│
+├───media
+│       pngwing.com.png
+│
+├───models
+│       data_model.py
+│       user_model.py
+│       __init__.py
+│
+├───services
+│   │   auth_service.py
+│   │   data_service.py
+│   │   __init__.py
+│   │
+│   └───__pycache__
+│           auth_service.cpython-311.pyc
+│           __init__.cpython-311.pyc
+│
+├───tests
+│       test_controllers.py
+│       test_models.py
+│       test_views.py
+│       __init__.py
+│
+├───utils
+│   │   encryption.py
+│   │   file_manager.py
+│   │   language_manager.py
+│   │   logger.py
+│   │   __init__.py
+│   │
+│   └───__pycache__
+│           encryption.cpython-311.pyc
+│           file_manager.cpython-311.pyc
+│           language_manager.cpython-311.pyc
+│           logger.cpython-311.pyc
+│           __init__.cpython-311.pyc
+│
+└───views
+    │   about_view.py
+    │   customers_view.py
+    │   dashboard_view.py
+    │   login_view.py
+    │   main_app_view.py
+    │   main_view.py
+    │   orders_view.py
+    │   products_view.py
+    │   register_view.py
+    │   secret_login_view.py
+    │   splash_screen.py
+    │   __init__.py
+    │
+    └───__pycache__
+            about_view.cpython-311.pyc
+            customers_view.cpython-311.pyc
+            dashboard_view.cpython-311.pyc
+            login_view.cpython-311.pyc
+            main_app_view.cpython-311.pyc
+            main_view.cpython-311.pyc
+            orders_view.cpython-311.pyc
+            products_view.cpython-311.pyc
+            register_view.cpython-311.pyc
+            secret_login_view.cpython-311.pyc
+            splash_screen.cpython-311.pyc
+            __init__.cpython-311.pyc
