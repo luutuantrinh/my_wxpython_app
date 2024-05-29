@@ -58,7 +58,8 @@ class MainView(wx.Frame):
         login_view = LoginView(self, "Login", self.controller)
         if login_view.ShowModal() == wx.ID_OK:
             self.controller.show_login_view()
-        login_view.Destroy()
+        if login_view:
+            login_view.Destroy()
 
     def on_register(self, event):
         register_view = RegisterView(self, "Register", self.controller)
@@ -70,7 +71,8 @@ class MainView(wx.Frame):
         secret_login_view = SecretLoginView(self, "Secret Login", self.controller)
         if secret_login_view.ShowModal() == wx.ID_OK:
             self.controller.show_secret_login_view()
-        secret_login_view.Destroy()
+        if secret_login_view:
+            secret_login_view.Destroy()
 
     def on_language_change(self, event):
         choice = self.language_choice.GetString(self.language_choice.GetSelection())

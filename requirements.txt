@@ -1,0 +1,4 @@
+wxPython
+Fernet
+requests
+cryptography
